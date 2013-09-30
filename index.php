@@ -2,112 +2,17 @@
 <html>
   <head>
     <title>Chris' CustomArt Webshop</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/custom.css" rel="stylesheet" media="screen">
     <!-- Fav and touch icons -->
     <link rel="apple-touch-icon" sizes="144x144" href="ico/apple-touch-icon-144.png">
     <link rel="apple-touch-icon" sizes="114x114" href="ico/apple-touch-icon-114.png">
     <link rel="apple-touch-icon" sizes="72x72" href="ico/apple-touch-icon-72.png">
     <link rel="apple-touch-icon" href="ico/apple-touch-icon-57.png">
     <link rel="shortcut icon" href="img/icons/favicon.png">
-    <style>
-      /* GLOBAL STYLES
-      -------------------------------------------------- */
-      /* Padding below the footer and lighter body text */
-      
-      body {
-        padding-bottom: 40px;
-        color: #5a5a5a;
-      }
-      
-      h1 {
-      	font-size: 22px;
-      }
-      
-      /* CUSTOMIZE THE NAVBAR
-      -------------------------------------------------- */
-      
-      /* Special class on .container surrounding .navbar, used for positioning it into place. */
-      .navbar-wrapper {
-        margin-left: -15px;
-        margin-right: -15px;
-        position: relative;
-        z-index: 15;
-      }
-      
-      
-      /* CUSTOMIZE THE CAROUSEL
-      -------------------------------------------------- */
-      
-      /* Carousel base class */
-      .carousel {
-        margin-top: -20px;
-        margin-bottom: 60px;
-      }
-      /* Since positioning the image, we need to help out the caption */
-      .carousel-caption {
-        z-index: 10;
-      }
-      
-      /* Declare heights because of positioning of img element */
-      .carousel .item {
-        height: 250px;
-        background-color: #EBAB2D;
-      }
-      .carousel-inner > .item > img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        min-width: 100%;
-        height: auto;
-      }
-
-      @media (min-width: 768px) {
-      h1 {
-      	font-size: 36px;
-      }
-
-        /* Navbar positioning foo */
-        .navbar-wrapper {
-          margin-left: 0px;
-          margin-right: 0px;
-          margin-top: 20px;
-        }
-        /* The navbar becomes detached from the top, so we round the corners */
-        .navbar-wrapper .navbar {
-          border-radius: 4px;
-        }
-      
-        /* Bump up size of carousel content */
-        .carousel {
-          margin-bottom: 60px;
-        
-          /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
-          margin-top: -90px;
-        }
-
-        .carousel-caption p {
-          margin-bottom: 20px;
-          font-size: 21px;
-          line-height: 1.4;
-        }
-      
-        .featurette-heading {
-          font-size: 50px;
-        }
-
-        .carousel .item {
-          height: 500px;
-        }
-      }
-      
-      @media (min-width: 992px) {
-        .featurette-heading {
-          margin-top: 120px;
-        }
-      }
-    </style>
   </head>
   <body>
     <div class="navbar-wrapper">
@@ -169,7 +74,6 @@
                 You can choose the style, subject and author of the
                 picture.
               </p>
-              <a class="btn btn-large btn-primary" href="#">Sign up today</a>
             </div>
           </div>
         </div>
@@ -196,13 +100,12 @@
               <p class="lead">
                 After you paid it, you can download it directly.
               </p>
-              <a class="btn btn-large btn-primary" href="#">Browse gallery</a>
             </div>
           </div>
         </div>
         <!-- item -->
         <div class="item">
-          <img src="img/dragon-artist.png" alt="">
+          <img src="img/dragon-bitcoin.png" alt="">
           <div class="container">
             <div class="carousel-caption">
               <h1>Pay with Bitcoin. <span class="text-muted">The internet money you haven't
@@ -211,7 +114,6 @@
                 If you already know Bitcoin, you can always try to make
                 me accept Litecoin as well.
               </p>
-              <a class="btn btn-large btn-primary" href="#">Browse gallery</a>
             </div>
           </div>
           <!-- container -->
