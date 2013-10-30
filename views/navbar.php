@@ -1,7 +1,9 @@
 <?php
-class NavBar {
+require_once 'renderable.php';
+
+class NavBar implements Renderable {
   public $brand;
-  private $menuEntries;
+  private $entries;
 
   function render() {
     ?>
@@ -14,20 +16,11 @@ class NavBar {
               <a class="navbar-brand" href="#"><?php print $this->brand; ?></a>
             </div>
     <?php
-    if($this->menuEntries) { 
-    ?>
-            <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-    <?php
-      foreach ($this->menuEntries as $entry) {
-        $entry->active = ($entry == $this->menuEntries[0]);
+    if ($this->entries) { 
+      foreach ($this->entries as $entry) {
         $entry->render();
       }
-    ?>
-              </ul>
-            </div>
-    <?php
-    } 
+    }
     ?>
           </div>
         </div>
@@ -37,8 +30,60 @@ class NavBar {
     <?php
   }
 
-  public function addSubEntry(MenuEntry $entry) {
-    $this->menuEntries[] = $entry;
+  public function addEntry(Renderable $entry) {
+    $this->entries[] = $entry;
+  }
+}
+
+class NavBarList implements Renderable {
+  public $entries;
+  public $right = false;
+
+  public function render() {
+    ?>
+    <ul class="nav navbar-nav<?php echo $this->right?' navbar-right':''?>">
+    <?php
+      foreach ($this->entries as $entry) {
+        $entry->render();
+      }
+    ?>
+    </ul>
+    <?php
+  }
+
+  public function addEntry(MenuEntry $entry) {
+    $this->entries[] = $entry;
+  }
+}
+
+class NavBarForm implements Renderable {
+  private $submitName;
+  private $entries;
+  public $right = false;
+
+  public function __construct($submitName){
+    $this->submitName = $submitName;
+  }
+
+  public function render() {
+    ?>
+    <form class="navbar-form<?php echo $this->right?' navbar-right':''?>">
+      <div class="form-group">
+      	<div class="input-group">
+      <?php
+      foreach ($this->entries as $entry) {
+        $entry->render();
+      }
+      ?>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default"><?php echo $this->submitName; ?></button>
+    </form>
+    <?php
+  }
+
+  public function addEntry(Renderable $entry) {
+    $this->entries[] = $entry;
   }
 }
 

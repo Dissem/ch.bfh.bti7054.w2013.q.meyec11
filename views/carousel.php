@@ -1,5 +1,7 @@
 <?php
-class Carousel {
+require_once 'renderable.php';
+
+class Carousel implements Renderable {
   public $id;
   private $slides;
 
