@@ -1,0 +1,92 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-12 19:28+0100\n"
+"PO-Revision-Date: 2013-11-12 19:28+0100\n"
+"Last-Translator: Christian Meyer <chrigu.meyer@gmail.com>\n"
+"Language-Team: German <chrigu.meyer@gmail.com>\n"
+"Language: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../../views/login.php:8
+msgid "Sign Up"
+msgstr "Registrieren"
+
+#: ../../../views/login.php:10 ../../../views/login.php:19
+msgid "Sign In"
+msgstr "Anmelden"
+
+#: ../../../views/login.php:14
+msgid "e-mail"
+msgstr "E-Mail"
+
+#: ../../../views/login.php:15
+msgid "password"
+msgstr "Passwort"
+
+#: ../../../views/login.php:17
+msgid "Remember me"
+msgstr "Anmeldung speichern"
+
+#: ../../../index.php:19
+msgid "Chris' CustomArt Webshop"
+msgstr "Chris' CustomArt-Webshop"
+
+#: ../../../index.php:33
+msgid "Art, as you've never experienced before."
+msgstr "Kunst, wie Du sie noch nie erlebt hast."
+
+#: ../../../index.php:34
+msgid "Except if you did, then you might have."
+msgstr "Ausser Du hast, dann vielleicht schon."
+
+#: ../../../index.php:35
+msgid "You can choose the style, subject and author of the picture."
+msgstr "Du kannst den Stil, den Inhalt und den Künstler frei wählen."
+
+#: ../../../index.php:39
+msgid "Each piece an unicate."
+msgstr "Jedes Stück ein Unikat."
+
+#: ../../../index.php:40
+msgid "Or even a duplicate."
+msgstr "Oder sogar ein Duplikat."
+
+#: ../../../index.php:41
+msgid "It's generated especially for you, with much love, by our servers."
+msgstr "Extra für Dich generiert, mit viel Liebe, von unseren Servern."
+
+#: ../../../index.php:45
+msgid "Blazing fast."
+msgstr "Rasend schnell."
+
+#: ../../../index.php:46
+msgid "On a blazing fast internet connection."
+msgstr "Mit einer rasend schnellen Internetverbindung."
+
+#: ../../../index.php:47
+msgid "After you paid it, you can download it directly."
+msgstr "Einmal bezahlt, kannst Du sie direkt herunterladen."
+
+#: ../../../index.php:51
+msgid "Pay with Bitcoin."
+msgstr "Bezahle mit Bitcoin."
+
+#: ../../../index.php:52
+msgid "The internet money you haven't heard of. Yet."
+msgstr "Dem Internetgeld von dem Du noch nie gehört hast. Bis jetzt."
+
+#: ../../../index.php:53
+msgid ""
+"If you already know Bitcoin, you can always try to make me accept Litecoin "
+"as well."
+msgstr "Falls doch, kannst du versuchen mich zum Akzeptieren von Litecoin zu bringen."

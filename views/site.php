@@ -27,6 +27,7 @@ class Site {
       $element->render();
     }
   ?>
+  	<div id="content"></div>
     <script src="js/jquery.min.js">
     </script>
     <script src="js/bootstrap.min.js">

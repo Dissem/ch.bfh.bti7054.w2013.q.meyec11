@@ -54,6 +54,11 @@ h1 {
     height: auto;
 }
 
+.navbar-inverse .dropdown-menu {
+	background-color: rgb(34, 34, 34);
+	color: rgb(90, 90, 90);
+}
+
 @media (min-width: 768px) {
 	h1 {
 	    font-size: 36px;
@@ -90,6 +95,10 @@ h1 {
 	
 	.carousel .item {
 	    height: 500px;
+	}
+
+	.navbar-inverse .dropdown-menu {
+		min-width: 20em;
 	}
 }
   
