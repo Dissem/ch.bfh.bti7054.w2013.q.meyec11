@@ -62,7 +62,7 @@ class Login implements Renderable {
             <input id="user_username" name="username" type="text" class="form-control" placeholder="<?php echo _("e-mail")?>" />
             <input id="user_password" name="password" type="password" class="form-control" placeholder="<?php echo _("password")?>" />
             <div id="login_error" style="display: none" class="alert alert-danger"><?php echo _("Well, that didn't work.")?></div>
-            <input id="user_remember_me" type="checkbox" value="1" />
+            <input id="user_remember_me" name="remember" type="checkbox" value="1" />
             <label for="user_remember_me"> <?php echo _("Remember me")?></label>
            
             <input class="btn btn-primary" type="submit" value="<?php echo _("Sign In")?>" onclick="return login();" style="width:100%" />
@@ -89,10 +89,16 @@ class Login implements Renderable {
       $pass = $_POST["password"];
     
       if ($user == $pass) {
-        setcookie("user", $user, strtotime( '+30 days' ));
-        return "ok";
+        if (isset($_POST["remember"]) && $_POST["remember"] == "1") {
+          // Store cookie for 30 days
+          setcookie("user", $user, strtotime( '+30 days' ));
+        } else {
+          // Only create a session cookie
+          setcookie("user", $user);
+        }
+        echo "ok";
       } else {
-        return "nok";
+        echo "nok";
       }
     }
   }

@@ -3,6 +3,9 @@ $site = strtolower($_GET["site"]);
 
 switch ($site) {
   case "signup":
+    require_once 'views/signup.php';
+    $signup = new SignUp();
+    $signup->render();
     break;
   case "signin":
     require_once 'views/login.php';
