@@ -3,6 +3,7 @@ require_once 'renderable.php';
 
 class Site {
   private $elements;
+  private $navElements;
 
   public function render() {
     ?><!DOCTYPE html>
@@ -22,12 +23,18 @@ class Site {
     <link rel="shortcut icon" href="img/icons/favicon.png">
   </head>
   <body>
-  <?php
-    foreach ($this->elements as $element) {
-      $element->render();
-    }
-  ?>
-  	<div id="content" class="container"></div>
+    <?php
+      foreach ($this->navElements as $element) {
+        $element->render();
+      }
+    ?>
+  	<div id="content" class="container">
+      <?php
+        foreach ($this->elements as $element) {
+          $element->render();
+        }
+      ?>
+  	</div>
     <script src="js/jquery.min.js">
     </script>
     <script src="js/bootstrap.min.js">
@@ -41,5 +48,9 @@ class Site {
 
   public function addElement(Renderable $element) {
     $this->elements[] = $element;
+  }
+
+  public function addNavElement(Renderable $element) {
+    $this->navElements[] = $element;
   }
 }

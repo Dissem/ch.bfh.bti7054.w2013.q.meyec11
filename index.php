@@ -24,11 +24,13 @@ require_once 'views/site.php';
 require_once 'views/navbar.php';
 require_once 'views/login.php';
 require_once 'views/carousel.php';
+require_once 'views/product.php';
+require_once 'views/columnlayout.php';
 
 $site = new Site();
 
 $navBar = new NavBar();
-$site->addElement($navBar);
+$site->addNavElement($navBar);
 $navBar->brand = _("Chris' CustomArt Webshop");
 //$navBar->addEntry(new MenuEntry("Google", "#"));
 //$navBar->addEntry(new MenuEntry("Test 1"));
@@ -40,7 +42,7 @@ $navBar->brand = _("Chris' CustomArt Webshop");
 $navBar->addEntry(new Login());
 
 $carousel = new Carousel("artCarousel");
-$site->addElement($carousel);
+$site->addNavElement($carousel);
 $slide = new Slide();
 $slide->title = _("Art, as you've never experienced before.");
 $slide->subtitle = _("Except if you did, then you might have.");
@@ -65,6 +67,22 @@ $slide->subtitle = _("The internet money you haven't heard of. Yet.");
 $slide->text = _("If you already know Bitcoin, you can always try to make me accept Litecoin as well.");
 $slide->image = "dragon-bitcoin.png";
 $carousel->addSlide($slide);
+
+$layout = new ColumnLayout();
+$site->addElement($layout);
+
+// TODO: get products from database!
+$product = new Product();
+$layout->addElement($product);
+$product->name = "The Classic Package";
+$product->description = "A picture from the artist of your choice with any content in the practical web size of 1 megapixels.";
+$product->price = 0.0002;
+
+$product = new Product();
+$layout->addElement($product);
+$product->name = "Supersize Me";
+$product->description = "The same as your classic package, but in mindboggingly huge 100 megapixels! It's almost like the real deal!";
+$product->price = 0.045;
 
 // This should probably always come last:
 $site->render();
