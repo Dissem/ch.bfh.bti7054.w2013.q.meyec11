@@ -26,6 +26,9 @@ require_once 'views/login.php';
 require_once 'views/carousel.php';
 require_once 'views/product.php';
 require_once 'views/columnlayout.php';
+require_once 'data/data.php';
+
+DBO::createTables();
 
 $site = new Site();
 
