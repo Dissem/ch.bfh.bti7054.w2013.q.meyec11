@@ -4,9 +4,13 @@ require_once __DIR__.'/../data/data.php';
 
 class Login implements Renderable {
   var $signedIn;
+  var $user;
 
   public function __construct(){
     $this->signedIn = isset($_COOKIE['user']);
+    if ($this->signedIn) {
+      $this->user = unserialize($_COOKIE['user']);
+    }
   }
 
   public function render() {
@@ -20,10 +24,11 @@ class Login implements Renderable {
             data: $("#loginForm").serialize(),
             dataType: "html",
             success: function(data){
-                if (data == "ok") {
+                if (data != "") {
                     $("#loginBlock").css("display", "none");
                     $("#login_error").css("display", "none");
                     $("#logoutBlock").css("display", "");
+                    $("#username").text(data);
                 }
                 else {
                     $("#login_error").css("display", "");
@@ -80,6 +85,9 @@ class Login implements Renderable {
   </ul>
   <ul id="logoutBlock" class="nav navbar-nav navbar-right"<?php $this->display(false)?>>
     <li>
+      <p class="navbar-text"><em id="username"><?php if ($this->signedIn) { printf(_("Hello, %s"), $this->user->name); } ?></em></p>
+    </li>
+    <li>
       <a href="#" onclick="return logout();">
         <?php echo _("Sign Out")?>
       </a>
@@ -98,16 +106,18 @@ class Login implements Renderable {
   function login() {
     $user = User::find($_POST["username"]);
     if ($user->check($_POST["password"])) {
+      $this->signedIn = true;
+      $this->user = $user->name;
       if (isset($_POST["remember"]) && $_POST["remember"] == "1") {
         // Store cookie for 30 days
-        setcookie("user", $user, strtotime( '+30 days' ));
+        setcookie("user", serialize($user), strtotime( '+30 days' ));
       } else {
         // Only create a session cookie
-        setcookie("user", $user->email);
+        setcookie("user", serialize($user));
       }
-      echo "ok";
+      echo $user->name;
     } else {
-      echo "nok";
+      echo "";
     }
   }
 

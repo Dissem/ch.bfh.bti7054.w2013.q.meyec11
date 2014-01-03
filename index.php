@@ -35,7 +35,11 @@ $site = new Site();
 $navBar = new NavBar();
 $site->addNavElement($navBar);
 $navBar->brand = _("Chris' CustomArt Webshop");
-//$navBar->addEntry(new MenuEntry("Google", "#"));
+
+$navBarList = new NavBarList();
+$navBar->addEntry($navBarList);
+$navBarList->addEntry(new MenuEntry(_("Cart"), "cart"));
+
 //$navBar->addEntry(new MenuEntry("Test 1"));
 //$me = new MenuEntry("Test 2");
 //$me->right = true;
@@ -75,17 +79,12 @@ $layout = new ColumnLayout();
 $site->addElement($layout);
 
 // TODO: get products from database!
-$product = new Product();
-$layout->addElement($product);
-$product->name = "The Classic Package";
-$product->description = "A picture from the artist of your choice with any content in the practical web size of 1 megapixels.";
-$product->price = 0.0002;
-
-$product = new Product();
-$layout->addElement($product);
-$product->name = "Supersize Me";
-$product->description = "The same as your classic package, but in mindboggingly huge 100 megapixels! It's almost like the real deal!";
-$product->price = 0.045;
+$products = Product::findAll();
+if (isset($products)) {
+  foreach ($products as $p) {
+    $layout->addElement($p);
+  }
+}
 
 // This should probably always come last:
 $site->render();

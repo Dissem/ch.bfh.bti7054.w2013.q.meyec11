@@ -89,29 +89,38 @@ class NavBarForm implements Renderable {
 
 class MenuEntry {
   public $text;
-  public $link;
+  public $link = "#";
+  public $action;
   public $subEntries;
   public $active = false;
 
-  public function __construct($text, $link = "#")    // Require first and last names when INSTANTIATING
+  public function __construct($text, $action = NULL)    // Require first and last names when INSTANTIATING
   {
     $this->text = $text;
-    $this->link = $link;
+    $this->action = $action;
   }
 
   public function render() {
     $firstClass = ($this->active ? " class='active'" : "");
     if (!$this->subEntries) {
-      echo "<li$firstClass><a href=\"$this->link\">$this->text</a></li>";
+      echo "<li$firstClass><a href=\"$this->link\" ".$this->onclick().">$this->text</a></li>";
     } else {
       echo "<li class=\"dropdown\">";
-      echo "  <a href=\"$this->link\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">$this->text <b class=\"caret\"></b></a>";
+      echo "  <a href=\"$this->link\" ".$this->onclick()." class=\"dropdown-toggle\" data-toggle=\"dropdown\">$this->text <b class=\"caret\"></b></a>";
       echo "    <ul class=\"dropdown-menu\">";
       foreach ($this->subEntries as $entry) {
         $entry->render();
       }
       echo " 	</ul>";
       echo "</li>";
+    }
+  }
+
+  private function onclick() {
+    if ($this->action) {
+      return "onclick=\"return go('$this->action')\"";
+    } else {
+      return "";
     }
   }
   

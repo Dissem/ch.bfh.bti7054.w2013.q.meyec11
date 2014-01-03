@@ -72,12 +72,15 @@ class DBO {
   private static $mysql;
 
   private static function init() {
-    self::$mysql =  new mysqli("localhost", "root", "");
+    mysqli_report(MYSQLI_REPORT_ERROR);
+
+    include __DIR__.'/../config.php';
+    self::$mysql =  new mysqli($mysql_server, $mysql_user, $mysql_password);
     self::$mysql->select_db("webshop");
     self::$mysql->set_charset('utf8');
   }
 
-  protected static function getDB() {
+  public static function getDB() {
     if (!isset(self::$mysql)) {
       self::init();
     }
@@ -90,6 +93,35 @@ class DBO {
   }
 
   public static function createTables() {
-    self::getDB()->query("CREATE TABLE User(email VARCHAR(255) NOT NULL PRIMARY KEY, name VARCHAR(255), password VARCHAR(255), roles VARCHAR(255))");
+    self::getDB()->multi_query("
+    CREATE TABLE IF NOT EXISTS User (
+        email VARCHAR(255) NOT NULL PRIMARY KEY,
+        name VARCHAR(255),
+        password VARCHAR(255),
+        roles VARCHAR(255)
+    );
+    CREATE TABLE IF NOT EXISTS Image (
+        id INT NOT NULL PRIMARY KEY,
+        type VARCHAR(31),
+        data LONGBLOB
+    );
+    CREATE TABLE IF NOT EXISTS Product (
+        id INT NOT NULL PRIMARY KEY,
+        price DECIMAL(10,8) NOT NULL,
+        imageId INT,
+        FOREIGN KEY (imageId) REFERENCES Image(id)
+    );
+    CREATE TABLE IF NOT EXISTS ProductTexts (
+        id INT NOT NULL,
+        lang CHAR(2) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        summary VARCHAR(255) NOT NULL,
+        description TEXT NOT NULL,
+        PRIMARY KEY (id, lang),
+        FOREIGN KEY (id) REFERENCES Product(id),
+        INDEX id
+    );
+    ");
+    while (self::getDB()->next_result());
   }
 }

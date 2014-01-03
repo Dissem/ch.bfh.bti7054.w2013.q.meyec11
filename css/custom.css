@@ -36,8 +36,8 @@ h1 {
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
 	left: 30%;
-	right: 5px;
-    z-index: 10;
+	right: 20px;
+    z-index: 0;
 }
 
 /* Declare heights because of positioning of img element */
@@ -65,7 +65,7 @@ h1 {
 
 @media (min-width: 768px) {
 	h1 {
-	    font-size: 36px;
+	    font-size: 32px;
 	}
 	
 	/* Navbar positioning foo */
@@ -98,7 +98,7 @@ h1 {
 	}
 	
 	.carousel .item {
-	    height: 500px;
+	    height: 300px;
 	}
 
 	.navbar-inverse .dropdown-menu {
