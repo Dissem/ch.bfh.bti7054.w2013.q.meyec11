@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.'/../data/data.php';
 require_once 'renderable.php';
+require_once 'columnlayout.php';
+require_once 'login.php';
 
 class Product extends DBO implements Renderable {
   public $id;
@@ -39,7 +41,11 @@ class Product extends DBO implements Renderable {
             data: $("#productForm").serialize(),
             dataType: "html",
             success: function(data){
-                $("#message").html(data);
+                $("#message").html('<div class="alert alert-success alert-dismissable"><strong><?php echo _("The item was added to the shopping cart.")?></strong></div>');
+                if (data == 0)
+                    $("#cartSize").text("");
+                else
+                    $("#cartSize").text(data);
             }
         });
         return false;
@@ -131,12 +137,26 @@ class Product extends DBO implements Renderable {
   }
 }
 
-class OrderItem extends DBO {
+class ProductOverview implements Renderable {
+  public function render() {
+    $layout = new ColumnLayout();
+    $products = Product::findAll();
+    if (isset($products)) {
+      foreach ($products as $p) {
+        $layout->addElement($p);
+      }
+    }
+    $layout->render();
+  }
+}
+
+class Item extends DBO {
   public $id;
   public $product;
   public $artist;
+  public $paid = false;
 
-  public function __construct($product, $artist = NULL)
+  public function __construct($product = NULL, $artist = NULL)
   {
     $this->product = $product;
     $this->artist = $artist;
@@ -144,5 +164,33 @@ class OrderItem extends DBO {
 
   public function getPrice() {
     return $this->product->price;
+  }
+
+  public static function load($id) {
+    $item = new Item();
+    $item->id = $id;
+    $stmt = parent::getDB()->prepare("SELECT productId, artist, paid FROM Item WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->bind_result($productId, $item->artist, $item->paid);
+    $stmt->execute();
+    $stmt->fetch();
+    $stmt->close();
+    $item->product = Product::find($productId);
+    return $item;
+  }
+
+  public function store() {
+    $stmt = parent::getDB()->prepare("INSERT INTO Item(user, productId, artist, paid) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sisb", Login::getLoggedInUser()->email, $this->product->id, $this->artist, $this->paid);
+    $stmt->execute();
+    $stmt->close();
+    $this->id = parent::getDB()->insert_id;
+  }
+
+  public function remove() {
+    $stmt = parent::getDB()->prepare("DELETE FROM Item WHERE id=? AND user=?");
+    $stmt->bind_param("is", $this->id, Login::getLoggedInUser()->email);
+    $stmt->execute();
+    $stmt->close();
   }
 }

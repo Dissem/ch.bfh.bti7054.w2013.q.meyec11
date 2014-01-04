@@ -13,6 +13,11 @@ class Login implements Renderable {
     }
   }
 
+  public static function getLoggedInUser() {
+    // TODO: Some safety mechanisms would be nice...
+    if (isset($_COOKIE['user'])) return unserialize($_COOKIE['user']);
+  }
+
   public function render() {
     ?>
   <script type="text/javascript">

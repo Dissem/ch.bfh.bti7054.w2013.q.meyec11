@@ -41,6 +41,7 @@ class User extends DBO {
     $stmt = DBO::getDB()->prepare("insert into User values (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $this->email, $this->name, $this->hashedPassword, $this->roles);
     $stmt->execute();
+    $stmt->close();
     $this->originalEmail = $this->email;
   }
 
@@ -101,12 +102,12 @@ class DBO {
         roles VARCHAR(255)
     );
     CREATE TABLE IF NOT EXISTS Image (
-        id INT NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         type VARCHAR(31),
         data LONGBLOB
     );
     CREATE TABLE IF NOT EXISTS Product (
-        id INT NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         price DECIMAL(10,8) NOT NULL,
         imageId INT,
         FOREIGN KEY (imageId) REFERENCES Image(id)
@@ -120,6 +121,13 @@ class DBO {
         PRIMARY KEY (id, lang),
         FOREIGN KEY (id) REFERENCES Product(id),
         INDEX id
+    );
+    CREATE TABLE IF NOT EXISTS Item (
+    	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    	user VARCHAR(255) NOT NULL,
+        productId INT NOT NULL,
+        artist VARCHAR(255) NOT NULL,
+        paid BOOLEAN NOT NULL
     );
     ");
     while (self::getDB()->next_result());

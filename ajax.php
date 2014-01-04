@@ -28,19 +28,24 @@ switch ($site) {
     $p = Product::find($id);
     $p->renderDetail();
     break;
+  case "overview":
+    require_once 'views/product.php';
+    $po = new ProductOverview();
+    $po->render();
+    break;
   case "addtocart":
     require_once 'views/shoppingcart.php';
     require_once 'views/product.php';
     $cart = ShoppingCart::get();
     $product = Product::find($_POST["id"]);
     $painter = $_POST["painter"];
-    echo $cart->addItem(new OrderItem($product, $painter));
+    echo $cart->addItem(new Item($product, $painter));
     break;
   case "removecartitem":
     require_once 'views/shoppingcart.php';
     $cart = ShoppingCart::get();
     $cart->removeItem($_GET["id"]);
-    echo $cart->total();
+    echo $cart->total().";".$cart->count();
     break;
   case "cart":
     require_once 'views/shoppingcart.php';

@@ -2,8 +2,11 @@
 require_once __DIR__.'/../data/data.php';
 require_once 'renderable.php';
 require_once 'product.php';
+require_once 'navbar.php';
+require_once 'login.php';
 
 class ShoppingCart extends DBO implements Renderable {
+  private static $instance;
   private $items;
 
   public function render() {
@@ -19,7 +22,9 @@ class ShoppingCart extends DBO implements Renderable {
           dataType: "html",
           success: function(data){
               $("#item"+id).remove();
-              $("#sum").text(data);
+              d = data.split(";");
+              $("#sum").text(d[0]);
+              $("#cartSize").text(d[1]);
           }
       });
       return false;
@@ -71,23 +76,35 @@ class ShoppingCart extends DBO implements Renderable {
     return count($this->items);
   }
 
-  public function addItem(OrderItem $p) {
-    $this->items[] = $p;
-    $p->id = array_search($p, $this->items);
-    setcookie("cart", serialize($this));
-    return '<div class="alert alert-success alert-dismissable"><strong>'._("Item added to cart.").'</strong> '.sprintf(_("Your shopping cart now contains %d items"), $this->count()).'</div>';
+  public function addItem(Item $p) {
+    $p->store();
+    $this->items[$p->id] = $p;
+    return $this->count();
   }
 
   public function removeItem($id) {
+    $p = $this->items[$id];
     unset($this->items[$id]);
+    $p->remove();
+    return $this->count();
   }
 
   public static function get() {
-    if (isset($_COOKIE['cart'])) {
-      return unserialize($_COOKIE['cart']);
-    } else {
-      return new ShoppingCart();
+    if (!self::$instance) {
+      self::$instance = new ShoppingCart();
+      $stmt = parent::getDB()->prepare("SELECT id FROM Item WHERE user=? AND paid=FALSE");
+      $stmt->bind_param("s", Login::getLoggedInUser()->email);
+      $stmt->bind_result($id);
+      $stmt->execute();
+      while ($stmt->fetch()) {
+        $ids[] = $id;
+      }
+      $stmt->close();
+      if (isset($ids)) foreach ($ids as $id) {
+        self::$instance->items[$id] = Item::load($id);
+      }
     }
+    return self::$instance;
   }
 
   private function getLocale() {
@@ -101,5 +118,16 @@ class ShoppingCart extends DBO implements Renderable {
       }
     }
     return 'en';
+  }
+}
+
+class CartMenuEntry extends MenuEntry {
+  public function __construct() {
+    $this->action = "cart";
+    $count = ShoppingCart::get()->count();
+    if ($count == 0) {
+      $count = "";
+    }
+    $this->text = _("Cart")." <span id=\"cartSize\" class=\"badge\">$count</span>";
   }
 }

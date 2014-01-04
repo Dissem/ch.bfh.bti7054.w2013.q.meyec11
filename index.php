@@ -1,4 +1,7 @@
 <?php
+require_once 'data/data.php';
+DBO::createTables();
+
 function getLocale(){
   $locales = array('en', 'de');
   $accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -25,10 +28,7 @@ require_once 'views/navbar.php';
 require_once 'views/login.php';
 require_once 'views/carousel.php';
 require_once 'views/product.php';
-require_once 'views/columnlayout.php';
-require_once 'data/data.php';
-
-DBO::createTables();
+require_once 'views/shoppingcart.php';
 
 $site = new Site();
 
@@ -38,7 +38,8 @@ $navBar->brand = _("Chris' CustomArt Webshop");
 
 $navBarList = new NavBarList();
 $navBar->addEntry($navBarList);
-$navBarList->addEntry(new MenuEntry(_("Cart"), "cart"));
+$navBarList->addEntry(new MenuEntry(_("Products"), "overview"));
+$navBarList->addEntry(new CartMenuEntry());
 
 //$navBar->addEntry(new MenuEntry("Test 1"));
 //$me = new MenuEntry("Test 2");
@@ -75,16 +76,7 @@ $slide->text = _("If you already know Bitcoin, you can always try to make me acc
 $slide->image = "dragon-bitcoin.png";
 $carousel->addSlide($slide);
 
-$layout = new ColumnLayout();
-$site->addElement($layout);
-
-// TODO: get products from database!
-$products = Product::findAll();
-if (isset($products)) {
-  foreach ($products as $p) {
-    $layout->addElement($p);
-  }
-}
+$site->addElement(new ProductOverview());
 
 // This should probably always come last:
 $site->render();
