@@ -72,7 +72,7 @@ class Product extends DBO implements Renderable {
 <input name="id" type="hidden" value="<?php echo $this->id ?>" />
 <button type="button" class="btn btn-primary"
 	onclick="return addToCart()"><?php echo _("Add to Cart")?></button>
-<button type="button" class="btn btn-default"><?php echo _("Buy right now!")?></button>
+<!-- <button type="button" class="btn btn-default"><?php echo _("Buy right now!")?></button> -->
 </form>
     <?php
   }

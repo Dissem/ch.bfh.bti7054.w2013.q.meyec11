@@ -61,6 +61,10 @@ class ShoppingCart extends DBO implements Renderable {
 	</tbody>
 </table>
 </div>
+<div id="checkout">
+<button type="button" class="btn btn-primary"
+	onclick="return go('checkout', '#checkout')"><?php echo _("Proceed to checkout")?></button>
+</div>
 		<?php
   }
 
