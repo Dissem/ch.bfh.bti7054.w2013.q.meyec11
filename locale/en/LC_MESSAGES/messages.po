@@ -17,75 +17,167 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../views/login.php:8
+#: ../../../views/bitcoin.php:23
+msgid "Payment"
+msgstr ""
+
+#: ../../../views/bitcoin.php:24
+msgid ""
+"Please note that this is just a demonstration, for the moment all payments "
+"are considered DONATIONS."
+msgstr ""
+
+#: ../../../views/bitcoin.php:28
+#, php-format
+msgid "Please send BTC %d to the address %s."
+msgstr ""
+
+#: ../../../views/bitcoin.php:29
+msgid ""
+"You can click the link if you have a wallet on this computer, or use the QR "
+"code with a mobile wallet."
+msgstr ""
+
+#: ../../../views/bitcoin.php:30
+msgid ""
+"After the payment is complete, you will be able to download the product from "
+"your personal section."
+msgstr ""
+
+#: ../../../views/login.php:68
 msgid "Sign Up"
 msgstr ""
 
-#: ../../../views/login.php:10 ../../../views/login.php:19
+#: ../../../views/login.php:73 ../../../views/login.php:86
 msgid "Sign In"
 msgstr ""
 
-#: ../../../views/login.php:14
+#: ../../../views/login.php:78 ../../../views/signup.php:32
 msgid "e-mail"
 msgstr ""
 
-#: ../../../views/login.php:15
+#: ../../../views/login.php:78 ../../../views/signup.php:34
 msgid "password"
 msgstr ""
 
-#: ../../../views/login.php:17
+#: ../../../views/login.php:80
+msgid "Well, that didn't work."
+msgstr ""
+
+#: ../../../views/login.php:84
 msgid "Remember me"
 msgstr ""
 
-#: ../../../index.php:19
+#: ../../../views/login.php:93
+#, php-format
+msgid "Hello, %s"
+msgstr ""
+
+#: ../../../views/login.php:97
+msgid "Sign Out"
+msgstr ""
+
+#: ../../../views/product.php:28
+msgid "Details"
+msgstr ""
+
+#: ../../../views/product.php:44
+msgid "The item was added to the shopping cart."
+msgstr ""
+
+#: ../../../views/product.php:74
+msgid "Add to Cart"
+msgstr ""
+
+#: ../../../views/product.php:75
+msgid "Buy right now!"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:37
+msgid "Product"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:38
+msgid "Artist"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:40
+msgid "Price"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:57
+msgid "Remove"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:66
+msgid "Proceed to checkout"
+msgstr ""
+
+#: ../../../views/shoppingcart.php:135
+msgid "Cart"
+msgstr ""
+
+#: ../../../views/signup.php:30
+msgid "full name"
+msgstr ""
+
+#: ../../../views/signup.php:36
+msgid "sign up"
+msgstr ""
+
+#: ../../../index.php:37
 msgid "Chris' CustomArt Webshop"
 msgstr ""
 
-#: ../../../index.php:33
+#: ../../../index.php:41
+msgid "Products"
+msgstr ""
+
+#: ../../../index.php:55
 msgid "Art, as you've never experienced before."
 msgstr ""
 
-#: ../../../index.php:34
+#: ../../../index.php:56
 msgid "Except if you did, then you might have."
 msgstr ""
 
-#: ../../../index.php:35
+#: ../../../index.php:57
 msgid "You can choose the style, subject and author of the picture."
 msgstr ""
 
-#: ../../../index.php:39
+#: ../../../index.php:61
 msgid "Each piece an unicate."
 msgstr ""
 
-#: ../../../index.php:40
+#: ../../../index.php:62
 msgid "Or even a duplicate."
 msgstr ""
 
-#: ../../../index.php:41
+#: ../../../index.php:63
 msgid "It's generated especially for you, with much love, by our servers."
 msgstr ""
 
-#: ../../../index.php:45
+#: ../../../index.php:67
 msgid "Blazing fast."
 msgstr ""
 
-#: ../../../index.php:46
+#: ../../../index.php:68
 msgid "On a blazing fast internet connection."
 msgstr ""
 
-#: ../../../index.php:47
+#: ../../../index.php:69
 msgid "After you paid it, you can download it directly."
 msgstr ""
 
-#: ../../../index.php:51
+#: ../../../index.php:73
 msgid "Pay with Bitcoin."
 msgstr ""
 
-#: ../../../index.php:52
+#: ../../../index.php:74
 msgid "The internet money you haven't heard of. Yet."
 msgstr ""
 
-#: ../../../index.php:53
+#: ../../../index.php:75
 msgid ""
 "If you already know Bitcoin, you can always try to make me accept Litecoin "
 "as well."

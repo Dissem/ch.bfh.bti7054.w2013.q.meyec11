@@ -127,7 +127,15 @@ class DBO {
     	user VARCHAR(255) NOT NULL,
         productId INT NOT NULL,
         artist VARCHAR(255) NOT NULL,
+        invoiceId INT,
         paid BOOLEAN NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS Invoice (
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user VARCHAR(255) NOT NULL,
+        amount DECIMAL(10,8) NOT NULL,
+        btcAddress VARCHAR(255),
+        confirmations INT NOT NULL DEFAULT 0
     );
     ");
     while (self::getDB()->next_result());

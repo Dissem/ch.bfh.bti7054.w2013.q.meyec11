@@ -52,8 +52,8 @@ class Product extends DBO implements Renderable {
     }
     //]]>
 </script>
-<form id="productForm" action="ajax.php" method="post"
-	accept-charset="UTF-8"><?php if (isset($this->imageId)) { ?><img
+<form
+	id="productForm" action="ajax.php" method="post" accept-charset="UTF-8"><?php if (isset($this->imageId)) { ?><img
 	src="image.php?id=<?php echo $this->imageId?>" class="img-responsive"
 	alt="Product Image" /><?php } ?>
 <div id="message"></div>
@@ -154,6 +154,7 @@ class Item extends DBO {
   public $id;
   public $product;
   public $artist;
+  public $invoiceId;
   public $paid = false;
 
   public function __construct($product = NULL, $artist = NULL)
@@ -169,14 +170,34 @@ class Item extends DBO {
   public static function load($id) {
     $item = new Item();
     $item->id = $id;
-    $stmt = parent::getDB()->prepare("SELECT productId, artist, paid FROM Item WHERE id=?");
+    $stmt = parent::getDB()->prepare("SELECT productId, artist, invoiceId, paid FROM Item WHERE id=?");
     $stmt->bind_param("i", $id);
-    $stmt->bind_result($productId, $item->artist, $item->paid);
+    $stmt->bind_result($productId, $item->artist, $item->invoiceId, $item->paid);
     $stmt->execute();
     $stmt->fetch();
     $stmt->close();
     $item->product = Product::find($productId);
     return $item;
+  }
+
+  public static function findByInvoice(Invoice $invoice) {
+    $items = array();
+    $item->id = $id;
+    $stmt = parent::getDB()->prepare("SELECT id, productId, artist, paid FROM Item WHERE invoiceId=?");
+    $stmt->bind_param("i", $invoice->id);
+    $stmt->bind_result($id, $productId, $artist, $paid);
+    $stmt->execute();
+    while ($stmt->fetch()) {
+      $item = new Item();
+      $item->id = $id;
+      $item->product = $productId;
+      $item->artist = $artist;
+      $item->paid = $paid;
+    }
+    $stmt->close();
+    // Warning: this isn't necessary at the moment, but might be later...
+    //    $item->product = Product::find($item->product);
+    return $items;
   }
 
   public function store() {
@@ -187,8 +208,57 @@ class Item extends DBO {
     $this->id = parent::getDB()->insert_id;
   }
 
+  public function update() {
+    $stmt = parent::getDB()->prepare("UPDATE Item SET invoiceId=?,  paid=? WHERE id=? AND user=?");
+    $stmt->bind_param("ibis", $this->invoiceId, $this->paid, $this->id, Login::getLoggedInUser()->email);
+    $stmt->execute();
+    $stmt->close();
+  }
+
   public function remove() {
     $stmt = parent::getDB()->prepare("DELETE FROM Item WHERE id=? AND user=?");
+    $stmt->bind_param("is", $this->id, Login::getLoggedInUser()->email);
+    $stmt->execute();
+    $stmt->close();
+  }
+}
+
+class Invoice extends DBO {
+  public $id;
+  public $user;
+  public $amount;
+  public $receivingBtcAddress;
+  public $confirmations = 0;
+
+  public static function load($id) {
+    $item = new Invoice();
+    $item->id = $id;
+    $stmt = parent::getDB()->prepare("SELECT user, amount, btcAddress, confirmations FROM Invoice WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->bind_result($item->user, $item->amount, $item->receivingBtcAddress, $item->confirmations);
+    $stmt->execute();
+    $stmt->fetch();
+    $stmt->close();
+    return $item;
+  }
+
+  public function store() {
+    $stmt = parent::getDB()->prepare("INSERT INTO Invoice(user, amount, btcAddress, confirmations) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sdsi", Login::getLoggedInUser()->email, $this->amount, $this->receivingBtcAddress, $this->confirmations);
+    $stmt->execute();
+    $stmt->close();
+    $this->id = parent::getDB()->insert_id;
+  }
+
+  public function update() {
+    $stmt = parent::getDB()->prepare("UPDATE Invoice SET btcAddress=?, confirmations=? WHERE id=? AND user=?");
+    $stmt->bind_param("siis", $this->receivingBtcAddress, $this->confirmations, $this->id, Login::getLoggedInUser()->email);
+    $stmt->execute();
+    $stmt->close();
+  }
+
+  public function remove() {
+    $stmt = parent::getDB()->prepare("DELETE FROM Invoice WHERE id=? AND user=?");
     $stmt->bind_param("is", $this->id, Login::getLoggedInUser()->email);
     $stmt->execute();
     $stmt->close();

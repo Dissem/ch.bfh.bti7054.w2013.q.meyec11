@@ -53,8 +53,9 @@ switch ($site) {
     break;
   case "checkout":
     require_once 'views/bitcoin.php';
-    // TODO: invoice id
-    $btc = new BitCoin(0);
+    require_once 'views/shoppingcart.php';
+    $invoice = ShoppingCart::get()->getInvoice();
+    $btc = new BitCoin($invoice->id);
     echo $btc->render();
     break;
 }

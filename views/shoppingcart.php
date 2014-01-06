@@ -93,10 +93,30 @@ class ShoppingCart extends DBO implements Renderable {
     return $this->count();
   }
 
+  public function getInvoice() {
+    if (count($this->items) == 0) {
+      return false;
+    }
+    $first = array_values($this->items);
+    $first = $first[0];
+    if ($first->invoiceId) {
+      return Invoice::load($first->invoiceId);
+    }
+    $invoice = new Invoice();
+    $invoice->amount = $this->total();
+    $invoice->store();
+
+    foreach ($this->items as $item) {
+      $item->invoiceId = $invoice->id;
+      $item->update();
+    }
+    return $invoice;
+  }
+
   public static function get() {
     if (!self::$instance) {
       self::$instance = new ShoppingCart();
-      $stmt = parent::getDB()->prepare("SELECT id FROM Item WHERE user=? AND paid=FALSE");
+      $stmt = parent::getDB()->prepare("SELECT id FROM Item WHERE user=? AND paid=false");
       $stmt->bind_param("s", Login::getLoggedInUser()->email);
       $stmt->bind_result($id);
       $stmt->execute();

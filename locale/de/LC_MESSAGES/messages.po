@@ -17,75 +17,173 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../../views/login.php:8
+#: ../../../views/bitcoin.php:23
+msgid "Payment"
+msgstr "Zahlung"
+
+#: ../../../views/bitcoin.php:24
+msgid ""
+"Please note that this is just a demonstration, for the moment all payments "
+"are considered DONATIONS."
+msgstr ""
+"Bitte beachten Sie dass es sich hier nur um eine Demo handelt, für den Moment "
+"werden alle Zahlungen als SPENDEN betrachtet."
+
+#: ../../../views/bitcoin.php:28
+#, php-format
+msgid "Please send BTC %d to the address %s."
+msgstr "Senden Sie bitte BTC %d an die Adresse %s."
+
+#: ../../../views/bitcoin.php:29
+msgid ""
+"You can click the link if you have a wallet on this computer, or use the QR "
+"code with a mobile wallet."
+msgstr ""
+"Sie können den Link anklicken falls Sie ein Wallet auf diesem Computer haben, "
+"oder den QR-Code mit einem mobilen Wallet scannen."
+
+#: ../../../views/bitcoin.php:30
+msgid ""
+"After the payment is complete, you will be able to download the product from "
+"your personal section."
+msgstr ""
+"Nachdem die Zahlung abgeschlossen ist, können Sie die gekauften Produkte in ihrem "
+"persönlichen Bereich herunterladen."
+
+#: ../../../views/login.php:68
 msgid "Sign Up"
 msgstr "Registrieren"
 
-#: ../../../views/login.php:10 ../../../views/login.php:19
+#: ../../../views/login.php:73 ../../../views/login.php:86
 msgid "Sign In"
 msgstr "Anmelden"
 
-#: ../../../views/login.php:14
+#: ../../../views/login.php:78 ../../../views/signup.php:32
 msgid "e-mail"
 msgstr "E-Mail"
 
-#: ../../../views/login.php:15
+#: ../../../views/login.php:78 ../../../views/signup.php:34
 msgid "password"
 msgstr "Passwort"
 
-#: ../../../views/login.php:17
+#: ../../../views/login.php:80
+msgid "Well, that didn't work."
+msgstr "Nun, das hat nicht funktioniert."
+
+#: ../../../views/login.php:84
 msgid "Remember me"
 msgstr "Anmeldung speichern"
 
-#: ../../../index.php:19
+#: ../../../views/login.php:93
+#, php-format
+msgid "Hello, %s"
+msgstr "Hallo, %s"
+
+#: ../../../views/login.php:97
+msgid "Sign Out"
+msgstr "Abmelden"
+
+#: ../../../views/product.php:28
+msgid "Details"
+msgstr "Details"
+
+#: ../../../views/product.php:44
+msgid "The item was added to the shopping cart."
+msgstr "Die Auswahl wurde dem Einkaufswagen hinzugefügt."
+
+#: ../../../views/product.php:74
+msgid "Add to Cart"
+msgstr "In den Einkaufswagen"
+
+#: ../../../views/product.php:75
+msgid "Buy right now!"
+msgstr "Gleich jetzt kaufen!"
+
+#: ../../../views/shoppingcart.php:37
+msgid "Product"
+msgstr "Produkt"
+
+#: ../../../views/shoppingcart.php:38
+msgid "Artist"
+msgstr "Künstler"
+
+#: ../../../views/shoppingcart.php:40
+msgid "Price"
+msgstr "Preis"
+
+#: ../../../views/shoppingcart.php:57
+msgid "Remove"
+msgstr "Entfernen"
+
+#: ../../../views/shoppingcart.php:66
+msgid "Proceed to checkout"
+msgstr "Weiter zum Bezahlen"
+
+#: ../../../views/shoppingcart.php:135
+msgid "Cart"
+msgstr "Einkaufswagen"
+
+#: ../../../views/signup.php:30
+msgid "full name"
+msgstr "vollständiger Name"
+
+#: ../../../views/signup.php:36
+msgid "sign up"
+msgstr "Anmelden"
+
+#: ../../../index.php:37
 msgid "Chris' CustomArt Webshop"
 msgstr "Chris' CustomArt-Webshop"
 
-#: ../../../index.php:33
+#: ../../../index.php:41
+msgid "Products"
+msgstr "Produkte"
+
+#: ../../../index.php:55
 msgid "Art, as you've never experienced before."
 msgstr "Kunst, wie Du sie noch nie erlebt hast."
 
-#: ../../../index.php:34
+#: ../../../index.php:56
 msgid "Except if you did, then you might have."
 msgstr "Ausser Du hast, dann vielleicht schon."
 
-#: ../../../index.php:35
+#: ../../../index.php:57
 msgid "You can choose the style, subject and author of the picture."
 msgstr "Du kannst den Stil, den Inhalt und den Künstler frei wählen."
 
-#: ../../../index.php:39
+#: ../../../index.php:61
 msgid "Each piece an unicate."
 msgstr "Jedes Stück ein Unikat."
 
-#: ../../../index.php:40
+#: ../../../index.php:62
 msgid "Or even a duplicate."
 msgstr "Oder sogar ein Duplikat."
 
-#: ../../../index.php:41
+#: ../../../index.php:63
 msgid "It's generated especially for you, with much love, by our servers."
 msgstr "Extra für Dich generiert, mit viel Liebe, von unseren Servern."
 
-#: ../../../index.php:45
+#: ../../../index.php:67
 msgid "Blazing fast."
 msgstr "Rasend schnell."
 
-#: ../../../index.php:46
+#: ../../../index.php:68
 msgid "On a blazing fast internet connection."
 msgstr "Mit einer rasend schnellen Internetverbindung."
 
-#: ../../../index.php:47
+#: ../../../index.php:69
 msgid "After you paid it, you can download it directly."
 msgstr "Einmal bezahlt, kannst Du sie direkt herunterladen."
 
-#: ../../../index.php:51
+#: ../../../index.php:73
 msgid "Pay with Bitcoin."
 msgstr "Bezahle mit Bitcoin."
 
-#: ../../../index.php:52
+#: ../../../index.php:74
 msgid "The internet money you haven't heard of. Yet."
 msgstr "Dem Internetgeld von dem Du noch nie gehört hast. Bis jetzt."
 
-#: ../../../index.php:53
+#: ../../../index.php:75
 msgid ""
 "If you already know Bitcoin, you can always try to make me accept Litecoin "
 "as well."
