@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../data/data.php';
+require_once __DIR__.'/../lib/utils.php';
+require_once __DIR__.'/../lib/data.php';
 require_once 'renderable.php';
 require_once 'columnlayout.php';
 require_once 'login.php';
@@ -14,23 +15,22 @@ class Product extends DBO implements Renderable {
   public $selectedOption;
 
   public function render() {
-    $l = $this->getLocale();
+    $l = Utils::getLocale();
     ?>
 <h1><?php echo $this->name[$l]?></h1>
-    <?php if (isset($this->imageId)) { ?>
-<img
-	src="image.php?id=<?php echo $this->imageId?>" class="img-rounded"
-	style="max-width: 30%; float: right" />
-    <?php } ?>
+    <?php if (isset($this->imageId)) { ?> <img
+	src="img/image.php?id=<?php echo $this->imageId?>" class="img-rounded"
+	style="max-width: 30%; float: left; margin-right: 1em;" /> <?php } ?>
 <p><?php echo $this->summary[$l]?></p>
 <p>BTC <?php echo $this->price?></p>
 <a href="#"
 	onclick="return go('product&amp;id=<?php echo $this->id?>');"><?php echo _("Details")?></a>
+	<br style="clear:both" />
     <?php
   }
 
   public function renderDetail() {
-    $l = $this->getLocale();
+    $l = Utils::getLocale();
     ?>
 <script type="text/javascript">
     //<![CDATA[
@@ -54,8 +54,8 @@ class Product extends DBO implements Renderable {
 </script>
 <form
 	id="productForm" action="ajax.php" method="post" accept-charset="UTF-8"><?php if (isset($this->imageId)) { ?><img
-	src="image.php?id=<?php echo $this->imageId?>" class="img-responsive"
-	alt="Product Image" /><?php } ?>
+	src="img/image.php?id=<?php echo $this->imageId?>"
+	class="img-responsive" alt="Product Image" /><?php } ?>
 <div id="message"></div>
 <h1><?php echo $this->name[$l]?></h1>
 <p><?php echo $this->summary[$l]?></p>
@@ -77,19 +77,6 @@ class Product extends DBO implements Renderable {
     <?php
   }
 
-  private function getLocale() {
-    $locales = array('en', 'de');
-    $accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    foreach ($accepted_languages as $l) {
-      if (substr($l, 0, 2) == 'de'){
-        return 'de';
-      }else if (substr($l, 0, 2) == 'en'){
-        return 'en';
-      }
-    }
-    return 'en';
-  }
-
   static function find($id) {
     $p = new Product();
     $stmt = parent::getDB()->prepare("select id, price, imageId from Product where id=?");
@@ -108,6 +95,7 @@ class Product extends DBO implements Renderable {
     $stmt = parent::getDB()->prepare("select id, price, imageId from Product");
     $stmt->bind_result($ids, $prices, $imageIds);
     $stmt->execute();
+    $res = array();
     while ($stmt->fetch()) {
       $p = new Product();
       $p->id = $ids;
@@ -202,7 +190,7 @@ class Item extends DBO {
 
   public function store() {
     $stmt = parent::getDB()->prepare("INSERT INTO Item(user, productId, artist, paid) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sisb", Login::getLoggedInUser()->email, $this->product->id, $this->artist, $this->paid);
+    $stmt->bind_param("sisb", User::getLoggedIn()->email, $this->product->id, $this->artist, $this->paid);
     $stmt->execute();
     $stmt->close();
     $this->id = parent::getDB()->insert_id;
@@ -210,14 +198,14 @@ class Item extends DBO {
 
   public function update() {
     $stmt = parent::getDB()->prepare("UPDATE Item SET invoiceId=?,  paid=? WHERE id=? AND user=?");
-    $stmt->bind_param("ibis", $this->invoiceId, $this->paid, $this->id, Login::getLoggedInUser()->email);
+    $stmt->bind_param("ibis", $this->invoiceId, $this->paid, $this->id, User::getLoggedIn()->email);
     $stmt->execute();
     $stmt->close();
   }
 
   public function remove() {
     $stmt = parent::getDB()->prepare("DELETE FROM Item WHERE id=? AND user=?");
-    $stmt->bind_param("is", $this->id, Login::getLoggedInUser()->email);
+    $stmt->bind_param("is", $this->id, User::getLoggedIn()->email);
     $stmt->execute();
     $stmt->close();
   }
@@ -244,7 +232,7 @@ class Invoice extends DBO {
 
   public function store() {
     $stmt = parent::getDB()->prepare("INSERT INTO Invoice(user, amount, btcAddress, confirmations) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sdsi", Login::getLoggedInUser()->email, $this->amount, $this->receivingBtcAddress, $this->confirmations);
+    $stmt->bind_param("sdsi", User::getLoggedIn()->email, $this->amount, $this->receivingBtcAddress, $this->confirmations);
     $stmt->execute();
     $stmt->close();
     $this->id = parent::getDB()->insert_id;
@@ -252,14 +240,14 @@ class Invoice extends DBO {
 
   public function update() {
     $stmt = parent::getDB()->prepare("UPDATE Invoice SET btcAddress=?, confirmations=? WHERE id=? AND user=?");
-    $stmt->bind_param("siis", $this->receivingBtcAddress, $this->confirmations, $this->id, Login::getLoggedInUser()->email);
+    $stmt->bind_param("siis", $this->receivingBtcAddress, $this->confirmations, $this->id, User::getLoggedIn()->email);
     $stmt->execute();
     $stmt->close();
   }
 
   public function remove() {
     $stmt = parent::getDB()->prepare("DELETE FROM Invoice WHERE id=? AND user=?");
-    $stmt->bind_param("is", $this->id, Login::getLoggedInUser()->email);
+    $stmt->bind_param("is", $this->id, User::getLoggedIn()->email);
     $stmt->execute();
     $stmt->close();
   }

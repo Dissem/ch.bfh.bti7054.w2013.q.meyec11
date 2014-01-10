@@ -1,6 +1,6 @@
 <?php
 require_once 'renderable.php';
-require_once __DIR__.'/../data/data.php';
+require_once __DIR__.'/../lib/data.php';
 
 class SignUp implements Renderable {
   public function render() {

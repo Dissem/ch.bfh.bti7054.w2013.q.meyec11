@@ -8,25 +8,30 @@ class NavBar implements Renderable {
   function render() {
     ?>
     <div class="navbar-wrapper">
-      <div class="container">
-
-        <div class="navbar navbar-inverse navbar-static-top">
-          <div class="container">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="#"><?php print $this->brand; ?></a>
-            </div>
-    <?php
-    if ($this->entries) { 
-      foreach ($this->entries as $entry) {
-        $entry->render();
-      }
-    }
-    ?>
-          </div>
-        </div>
-
+    <div class="container">
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <span class="sr-only"><?php echo _("Toggle navigation")?></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#" onclick="return go('overview')"><?php print $this->brand; ?></a>
       </div>
-    </div>
+      <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-1">
+        <ul class="nav navbar-nav">
+        <?php
+        if ($this->entries) { 
+          foreach ($this->entries as $entry) {
+            $entry->render();
+          }
+        }
+        ?>
+        </ul>
+      </div>
+    </nav>
+    </div></div>
     <?php
   }
 
@@ -88,6 +93,7 @@ class NavBarForm implements Renderable {
 }
 
 class MenuEntry {
+  public $attrs = "";
   public $text;
   public $link = "#";
   public $action;
@@ -103,9 +109,9 @@ class MenuEntry {
   public function render() {
     $firstClass = ($this->active ? " class='active'" : "");
     if (!$this->subEntries) {
-      echo "<li$firstClass><a href=\"$this->link\" ".$this->onclick().">$this->text</a></li>";
+      echo "<li $this->attrs$firstClass><a href=\"$this->link\" ".$this->onclick().">$this->text</a></li>";
     } else {
-      echo "<li class=\"dropdown\">";
+      echo "<li $this->attrs class=\"dropdown\">";
       echo "  <a href=\"$this->link\" ".$this->onclick()." class=\"dropdown-toggle\" data-toggle=\"dropdown\">$this->text <b class=\"caret\"></b></a>";
       echo "    <ul class=\"dropdown-menu\">";
       foreach ($this->subEntries as $entry) {

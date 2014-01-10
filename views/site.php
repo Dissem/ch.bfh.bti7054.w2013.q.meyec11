@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/../lib/data.php';
 require_once 'renderable.php';
 
 class Site {
@@ -6,6 +7,10 @@ class Site {
   private $navElements;
 
   public function render() {
+    $loginDisplay = "";
+    if (!User::getLoggedIn()) {
+      $loginDisplay = "display: none !important;";
+    }
     ?><!DOCTYPE html>
 <html>
   <head>
@@ -21,6 +26,11 @@ class Site {
     <link rel="apple-touch-icon" sizes="72x72" href="img/icons/apple-touch-icon-72.png">
     <link rel="apple-touch-icon" href="img/icons/apple-touch-icon-57.png">
     <link rel="shortcut icon" href="img/icons/favicon.png">
+    <style type="text/css">
+        .loginRequired {
+            <?php echo $loginDisplay?>
+        }
+    </style>
   </head>
   <body>
     <?php

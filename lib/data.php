@@ -1,4 +1,6 @@
 <?php
+include 'password.php';
+
 class User extends DBO {
   private $originalEmail;
   public $email;
@@ -35,6 +37,11 @@ class User extends DBO {
     $user->hashedPassword = $password;
     $user->roles = $roles;
     return $user;
+  }
+
+  public static function getLoggedIn() {
+    // TODO: Some safety mechanisms would be nice...
+    if (isset($_COOKIE['user'])) return unserialize($_COOKIE['user']);
   }
 
   function save() {
@@ -119,8 +126,7 @@ class DBO {
         summary VARCHAR(255) NOT NULL,
         description TEXT NOT NULL,
         PRIMARY KEY (id, lang),
-        FOREIGN KEY (id) REFERENCES Product(id),
-        INDEX id
+        FOREIGN KEY (id) REFERENCES Product(id)
     );
     CREATE TABLE IF NOT EXISTS Item (
     	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -136,6 +142,15 @@ class DBO {
         amount DECIMAL(10,8) NOT NULL,
         btcAddress VARCHAR(255),
         confirmations INT NOT NULL DEFAULT 0
+    );
+    CREATE TABLE IF NOT EXISTS Slide (
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        lang CHAR(2),
+        imageId INT,
+        title VARCHAR(255),
+        subtitle VARCHAR(255),
+        text VARCHAR(255),
+        FOREIGN KEY (imageId) REFERENCES Image(id)
     );
     ");
     while (self::getDB()->next_result());

@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__.'/../lib/utils.php';
+require_once __DIR__.'/../lib/data.php';
 require_once 'renderable.php';
 
 class Carousel implements Renderable {
@@ -30,8 +32,13 @@ class Carousel implements Renderable {
         }
       ?>
       </div>
-      <a class="left carousel-control" href="#<?php echo $this->id; ?>" data-slide="prev">&lsaquo;</a>
-      <a class="right carousel-control" href="#<?php echo $this->id; ?>" data-slide="next">&rsaquo;</a>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#<?php echo $this->id; ?>" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#<?php echo $this->id; ?>" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
     </div>
     <?php
   }
@@ -41,7 +48,7 @@ class Carousel implements Renderable {
   }
 }
 
-class Slide {
+class Slide extends DBO {
   public $image;
   public $title;
   public $subtitle;
@@ -60,5 +67,25 @@ class Slide {
           </div>
         </div>
     <?php
+  }
+
+  static function findAll() {
+    $stmt = self::getDB()->prepare("SELECT imageId, title, subtitle, text FROM Slide WHERE lang=?");
+    $stmt->bind_param("s", Utils::getLocale());
+    $stmt->bind_result($image, $title, $subtitle, $text);
+    $stmt->execute();
+
+    $slides = array();
+    while ($stmt->fetch()) {
+      $slide = new Slide();
+      $slide->image = "image.php?id=$image";
+      $slide->title = $title;
+      $slide->subtitle = $subtitle;
+      $slide->text = $text;
+      $slides[] = $slide;
+    }
+    $stmt->close();
+
+    return $slides;
   }
 }

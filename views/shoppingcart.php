@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../data/data.php';
+require_once __DIR__.'/../lib/data.php';
+require_once __DIR__.'/../lib/utils.php';
 require_once 'renderable.php';
 require_once 'product.php';
 require_once 'navbar.php';
@@ -10,7 +11,7 @@ class ShoppingCart extends DBO implements Renderable {
   private $items;
 
   public function render() {
-    $l = $this->getLocale();
+    $l = Utils::getLocale();
     ?>
 <div class="table-responsive"><script type="text/javascript">
   //<![CDATA[
@@ -117,7 +118,7 @@ class ShoppingCart extends DBO implements Renderable {
     if (!self::$instance) {
       self::$instance = new ShoppingCart();
       $stmt = parent::getDB()->prepare("SELECT id FROM Item WHERE user=? AND paid=false");
-      $stmt->bind_param("s", Login::getLoggedInUser()->email);
+      $stmt->bind_param("s", User::getLoggedIn()->email);
       $stmt->bind_result($id);
       $stmt->execute();
       while ($stmt->fetch()) {
@@ -130,24 +131,12 @@ class ShoppingCart extends DBO implements Renderable {
     }
     return self::$instance;
   }
-
-  private function getLocale() {
-    $locales = array('en', 'de');
-    $accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    foreach ($accepted_languages as $l) {
-      if (substr($l, 0, 2) == 'de'){
-        return 'de';
-      }else if (substr($l, 0, 2) == 'en'){
-        return 'en';
-      }
-    }
-    return 'en';
-  }
 }
 
 class CartMenuEntry extends MenuEntry {
   public function __construct() {
     $this->action = "cart";
+    $this->attrs = "class='loginRequired'";
     $count = ShoppingCart::get()->count();
     if ($count == 0) {
       $count = "";

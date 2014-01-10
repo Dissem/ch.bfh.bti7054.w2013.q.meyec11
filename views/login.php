@@ -1,6 +1,6 @@
 <?php
 require_once 'renderable.php';
-require_once __DIR__.'/../data/data.php';
+require_once __DIR__.'/../lib/data.php';
 
 class Login implements Renderable {
   var $signedIn;
@@ -11,11 +11,6 @@ class Login implements Renderable {
     if ($this->signedIn) {
       $this->user = unserialize($_COOKIE['user']);
     }
-  }
-
-  public static function getLoggedInUser() {
-    // TODO: Some safety mechanisms would be nice...
-    if (isset($_COOKIE['user'])) return unserialize($_COOKIE['user']);
   }
 
   public function render() {
@@ -34,6 +29,7 @@ class Login implements Renderable {
                     $("#login_error").css("display", "none");
                     $("#logoutBlock").css("display", "");
                     $("#username").text(data);
+                    $(".loginRequired").css("display", "");
                 }
                 else {
                     $("#login_error").css("display", "");
@@ -54,9 +50,10 @@ class Login implements Renderable {
                 $("#loginBlock").css("display", "");
                 $("#login_error").css("display", "none");
                 $("#logoutBlock").css("display", "none");
+                $(".loginRequired").css("display", "none");
+                go("overview");
             }
         });
-        
         return false;
     }
     
@@ -89,9 +86,6 @@ class Login implements Renderable {
     </li>
   </ul>
   <ul id="logoutBlock" class="nav navbar-nav navbar-right"<?php $this->display(false)?>>
-    <li>
-      <p class="navbar-text"><em id="username"><?php if ($this->signedIn) { printf(_("Hello, %s"), $this->user->name); } ?></em></p>
-    </li>
     <li>
       <a href="#" onclick="return logout();">
         <?php echo _("Sign Out")?>
