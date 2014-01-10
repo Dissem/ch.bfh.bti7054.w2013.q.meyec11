@@ -10,9 +10,9 @@ $value_in_satoshi = $_GET['value'];
 $value_in_btc = $value_in_satoshi / 100000000;
 
 //Commented out to test, uncomment when live
-if ($_GET['test'] == true) {
+if ($_GET['test'] == 'true') {
   return;
 }
 
-$btc = new BitCoin();
+$btc = new BitCoin($invoice_id);
 echo $btc->receive($invoice_id, $value_in_btc, $real_secret);

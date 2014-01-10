@@ -25,7 +25,11 @@ class ShoppingCart extends DBO implements Renderable {
               $("#item"+id).remove();
               d = data.split(";");
               $("#sum").text(d[0]);
-              $("#cartSize").text(d[1]);
+              var size = d[1];
+              if (size > 0)
+                  $("#cartSize").text(d[1]);
+              else 
+                  $("#cartSize").text('');
           }
       });
       return false;

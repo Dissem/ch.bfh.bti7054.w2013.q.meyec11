@@ -170,7 +170,6 @@ class Item extends DBO {
 
   public static function findByInvoice(Invoice $invoice) {
     $items = array();
-    $item->id = $id;
     $stmt = parent::getDB()->prepare("SELECT id, productId, artist, paid FROM Item WHERE invoiceId=?");
     $stmt->bind_param("i", $invoice->id);
     $stmt->bind_result($id, $productId, $artist, $paid);
@@ -181,6 +180,8 @@ class Item extends DBO {
       $item->product = $productId;
       $item->artist = $artist;
       $item->paid = $paid;
+      $item->invoiceId = $invoice->id;
+      $items[] = $item;
     }
     $stmt->close();
     // Warning: this isn't necessary at the moment, but might be later...
@@ -197,10 +198,11 @@ class Item extends DBO {
   }
 
   public function update() {
-    $stmt = parent::getDB()->prepare("UPDATE Item SET invoiceId=?,  paid=? WHERE id=? AND user=?");
-    $stmt->bind_param("ibis", $this->invoiceId, $this->paid, $this->id, User::getLoggedIn()->email);
-    $stmt->execute();
+    $stmt = parent::getDB()->prepare("UPDATE Item SET invoiceId=?, paid=? WHERE id=?");
+    $stmt->bind_param("iii", $this->invoiceId, $this->paid, $this->id);
+    $success = $stmt->execute();
     $stmt->close();
+    return $success;
   }
 
   public function remove() {
@@ -239,10 +241,11 @@ class Invoice extends DBO {
   }
 
   public function update() {
-    $stmt = parent::getDB()->prepare("UPDATE Invoice SET btcAddress=?, confirmations=? WHERE id=? AND user=?");
-    $stmt->bind_param("siis", $this->receivingBtcAddress, $this->confirmations, $this->id, User::getLoggedIn()->email);
-    $stmt->execute();
+    $stmt = parent::getDB()->prepare("UPDATE Invoice SET btcAddress=?, confirmations=? WHERE id=?");
+    $stmt->bind_param("sii", $this->receivingBtcAddress, $this->confirmations, $this->id);
+    $success = $stmt->execute();
     $stmt->close();
+    return $success;
   }
 
   public function remove() {

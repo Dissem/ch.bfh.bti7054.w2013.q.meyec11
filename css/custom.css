@@ -82,7 +82,7 @@ h1 {
 	.carousel {
 	    margin-bottom: 40px;
 	    /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
-	    margin-top: -90px;
+	    margin-top: -92px;
 	}
 	
 	.carousel-caption p {

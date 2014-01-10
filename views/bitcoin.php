@@ -6,11 +6,11 @@ class BitCoin implements Renderable{
   private $secret = 'ZQnluBj2vdldj5Vb8dGc';
   private $address;
   private $callbackUrl;
-  private $invoice;
+  public $invoice;
 
   public function __construct($invoiceId) {
     include __DIR__.'/../config.php';
-
+    
     $this->invoice = Invoice::load($invoiceId);
     $this->address = $btcAddress;
     $this->callbackUrl = $site_url."/bitcoincallback.php";
@@ -53,6 +53,8 @@ class BitCoin implements Renderable{
   }
 
   public function receive($invoiceId, $value, $secret) {
+    include __DIR__.'/../config.php';
+
     if ($secret != $this->secret) {
       die("Wrong secret");
     }
@@ -61,11 +63,13 @@ class BitCoin implements Renderable{
     if ($invoice->confirmations >= $btcConfirmations) {
       $items = Item::findByInvoice($invoice);
       foreach ($items as $item) {
-        $items->paid = true;
-        $items->update();
+        $item->paid = true;
+        if (!$item->update())
+          return "Error saving Item";
       }
     }
-    $invoice->update;
+    if (!$invoice->update())
+      return "Error saving Invoice";
     if ($invoice->confirmations >= $btcConfirmations) {
       return "*ok*";
     } else {
