@@ -51,7 +51,7 @@ class User extends DBO {
   public static function getLoggedIn() {
     if (isset($_SESSION['user'])) {
       return unserialize($_SESSION['user']);
-    } elseif (isset($_COOKIE['user'])) {
+    } elseif (isset($_COOKIE['user']) && isset($_COOKIE['usersecret'])) {
       $email = $_COOKIE['user'];
       if (self::calcSecret($email) != $_COOKIE['usersecret'])
         return FALSE;
