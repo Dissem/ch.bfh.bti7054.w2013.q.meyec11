@@ -39,9 +39,26 @@ class User extends DBO {
     return $user;
   }
 
+  public function getSecret() {
+    return self::calcSecret($this->email);
+  }
+
+  private static function calcSecret($email) {
+    include __DIR__.'/../config.php';
+    return hash('sha512', $email.$cookieSecret);
+  }
+
   public static function getLoggedIn() {
-    // TODO: Some safety mechanisms would be nice...
-    if (isset($_COOKIE['user'])) return unserialize($_COOKIE['user']);
+    if (isset($_SESSION['user'])) {
+      return unserialize($_SESSION['user']);
+    } elseif (isset($_COOKIE['user'])) {
+      $email = $_COOKIE['user'];
+      if (self::calcSecret($email) != $_COOKIE['usersecret'])
+        return FALSE;
+      $user = self::find($email);
+      $_SESSION['user'] = serialize($user);
+      return $user;
+    }
   }
 
   function save() {

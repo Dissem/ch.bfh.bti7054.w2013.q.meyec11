@@ -7,10 +7,9 @@ class Login implements Renderable {
   var $user;
 
   public function __construct(){
-    $this->signedIn = isset($_COOKIE['user']);
-    if ($this->signedIn) {
-      $this->user = unserialize($_COOKIE['user']);
-    }
+    $user = User::getLoggedIn();
+    $this->signedIn = isset($user);
+    $this->user = $user;
   }
 
   public function render() {
@@ -97,9 +96,9 @@ class Login implements Renderable {
 
   private function display($b) {
     if ($b == $this->signedIn)
-    echo ' style="display: none"';
+      echo ' style="display: none"';
     else
-    echo '';
+      echo '';
   }
 
   function login() {
@@ -107,12 +106,12 @@ class Login implements Renderable {
     if ($user->check($_POST["password"])) {
       $this->signedIn = true;
       $this->user = $user->name;
+      $userstring = serialize($user);
+      $_SESSION['user'] = $userstring;
       if (isset($_POST["remember"]) && $_POST["remember"] == "1") {
         // Store cookie for 30 days
-        setcookie("user", serialize($user), strtotime( '+30 days' ));
-      } else {
-        // Only create a session cookie
-        setcookie("user", serialize($user));
+        setcookie("user", $user->name, strtotime( '+30 days' ));
+        setcookie("usersecret", $user->getSecret(), strtotime( '+30 days' ));
       }
       echo $user->name;
     } else {
@@ -121,6 +120,7 @@ class Login implements Renderable {
   }
 
   function logout() {
+    $_SESSION['user'] = FALSE;
     setcookie("user", FALSE, strtotime( '-1 days' ));
   }
 }

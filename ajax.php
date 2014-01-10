@@ -1,4 +1,5 @@
 <?php
+session_start();
 $site = strtolower($_GET["site"]);
 
 switch ($site) {

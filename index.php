@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'lib/data.php';
 require_once 'lib/utils.php';
 DBO::createTables();

@@ -16,18 +16,3 @@ if ($_GET['test'] == true) {
 
 $btc = new BitCoin();
 echo $btc->receive($invoice_id, $value_in_btc, $real_secret);
-//try {
-//  //create or open the database
-//  $database = new SQLiteDatabase('db.sqlite', 0666, $error);
-//} catch(Exception $e) {
-//  die($error);
-//}
-//
-////Add the invoice to the database
-//$query = "insert INTO invoice_payments (invoice_id, transaction_hash, value) values($invoice_id, '$transaction_hash', $value_in_btc)";
-//
-//if($database->queryExec($query, $error)) {
-//  echo "*ok*";
-//}
-//
-////Select the amount paid into an invoice with select SUM(value) as value from invoice_payments where invoice_id = $invoice_id
