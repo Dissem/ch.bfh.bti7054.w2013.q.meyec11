@@ -11,7 +11,7 @@ switch ($site) {
   case "signup-submit":
     require_once 'views/signup.php';
     $signup = new SignUp();
-    $signup->doSignup();
+    echo $signup->doSignup();
     break;
   case "signin":
     require_once 'views/login.php';

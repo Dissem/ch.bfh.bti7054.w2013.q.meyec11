@@ -50,6 +50,7 @@ if (count($slides) > 0) {
     $carousel->addSlide($slide);
   }
 }
+$site->addNavElement(new Messages());
 //$slide = new Slide();
 //$slide->title = _("Art, as you've never experienced before.");
 //$slide->subtitle = _("Except if you did, then you might have.");

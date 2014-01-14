@@ -8,7 +8,7 @@ class Login implements Renderable {
 
   public function __construct(){
     $user = User::getLoggedIn();
-    $this->signedIn = isset($user);
+    $this->signedIn = isset($user) && $user != FALSE;
     $this->user = $user;
   }
 

@@ -13,7 +13,7 @@ class Text implements Renderable {
   }
 
   public function render() {
-    echo "<p class=\"$this->class\">$this->text</p>"; 
+    echo "<p class=\"$this->class\">$this->text</p>";
   }
 }
 
@@ -29,7 +29,7 @@ class Button implements Renderable {
   }
 
   public function render() {
-    echo "<button type=\"$this->type\" class=\"btn btn-default $this->class\">$this->text</button>"; 
+    echo "<button type=\"$this->type\" class=\"btn btn-default $this->class\">$this->text</button>";
   }
 }
 
@@ -47,6 +47,12 @@ class Input implements Renderable {
   }
 
   public function render() {
-    echo "<input type=\"$this->type\" class=\"$this->class\" placeholder=\"$this->label\">$this->text</input>"; 
+    echo "<input type=\"$this->type\" class=\"$this->class\" placeholder=\"$this->label\">$this->text</input>";
+  }
+}
+
+class Messages implements Renderable {
+  public function render() {
+    echo '<div id="messages"></div>';
   }
 }

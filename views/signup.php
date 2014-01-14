@@ -15,7 +15,14 @@ class SignUp implements Renderable {
           		dataType: "html",
           		success: function(data)
           		{
-  					$("#messages").text(data);
+          			if (data != "") {
+                    	$("#loginBlock").css("display", "none");
+                    	$("#login_error").css("display", "none");
+                    	$("#logoutBlock").css("display", "");
+                    	$("#username").text(data);
+                    	$(".loginRequired").css("display", "");
+    					go('overview');
+          			}
           		}
       	    });
   
@@ -23,7 +30,6 @@ class SignUp implements Renderable {
       	}
   	//]]>
       </script>
-      <div id="messages"></div>
       <form id="signupForm">
         <div class="row">
           <div class="col-md-6">
@@ -46,7 +52,8 @@ class SignUp implements Renderable {
     $user->email = $_POST["email"];
     $user->updatePassword("", $_POST["password"]);
     $user->save();
-    setcookie("user", $user);
-    return "Welcome, ".$user->name;
+
+    $_SESSION['user'] = serialize($user);;
+    return $user->name;
   }
 }
